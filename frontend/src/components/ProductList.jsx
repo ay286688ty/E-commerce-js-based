@@ -2,8 +2,9 @@ import { motion } from "framer-motion";
 import { Trash, Star } from "lucide-react";
 import { useProductStore } from "../stores/useProductStore";
 
-const ProductList = () => {
+const ProductsList = () => {
   const { deleteProduct, toggleFeaturedProduct, products } = useProductStore();
+
   console.log("products", products);
 
   return (
@@ -49,6 +50,7 @@ const ProductList = () => {
             </th>
           </tr>
         </thead>
+
         <tbody className="bg-gray-800 divide-y divide-gray-700">
           {products?.map((product) => (
             <tr key={product._id} className="hover:bg-gray-700">
@@ -103,5 +105,4 @@ const ProductList = () => {
     </motion.div>
   );
 };
-
-export default ProductList;
+export default ProductsList;

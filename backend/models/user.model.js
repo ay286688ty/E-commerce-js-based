@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -11,12 +12,12 @@ const userSchema = new mongoose.Schema(
       required: [true, "Email is required"],
       unique: true,
       lowercase: true,
-      trime: true,
+      trim: true,
     },
     password: {
       type: String,
       required: [true, "Password is required"],
-      minLength: [6, "Password must be at least 6 characters long"],
+      minlength: [6, "Password must be at least 6 characters long"],
     },
     cartItems: [
       {
@@ -30,20 +31,18 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
-
     role: {
       type: String,
       enum: ["customer", "admin"],
       default: "customer",
     },
   },
-  //CreatedAt and UpdatedAt fields
   {
     timestamps: true,
   }
 );
 
-// Pre-Save gook to hash passowrk before saving to database
+// Pre-save hook to hash password before saving to database
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
@@ -59,6 +58,7 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.comparePassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
+
 const User = mongoose.model("User", userSchema);
 
 export default User;
